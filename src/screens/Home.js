@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 
+import SearchBox from '../components/Home/SearchBox'
+
 export class Home extends Component {
-    watchId=null;
+    watchId = null;
 
     static navigationOptions = {
         title: 'Taxi Amarelo',
@@ -38,17 +40,18 @@ export class Home extends Component {
         this.setWarning = this.setWarning.bind(this);
         this.getCurrentLocation = this.getCurrentLocation.bind(this);
         this.requestLocPermission = this.requestLocPermission.bind(this);
+        this.SearchBoxClick=this.SearchBoxClick.bind(this);
     }
 
     componentDidMount() {
         this.getCurrentLocation();
-       // Geolocation.clearWatch(this.watchId);//para para se quiser
+        // Geolocation.clearWatch(this.watchId);//para para se quiser
     }
 
     getCurrentLocation = async () => {
         this.setWarning(true, 'Procurando Sua Localizacao...');
         if (await this.requestLocPermission()) {
-            this.watchId=Geolocation.watchPosition(
+            this.watchId = Geolocation.watchPosition(
                 (position) => {
                     this.setWarning(false, '');
                     this.setState({
@@ -66,7 +69,7 @@ export class Home extends Component {
                 },
                 {
                     enableHighAccuracy: true,
-                    interval:1000,
+                    interval: 1000,
                     timeout: 15000,
                     maximumAge: 5000
                 }
@@ -129,6 +132,10 @@ export class Home extends Component {
         }
     }
 
+    SearchBoxClick(item){
+        alert("Clicou em: "+item.label);
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -141,6 +148,8 @@ export class Home extends Component {
                         {this.state.loadingMsg}
                     </Text>
                 </Animated.View>
+
+                <SearchBox dataClick={this.SearchBoxClick}/>
             </View >
         );
     }

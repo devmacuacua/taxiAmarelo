@@ -1,4 +1,4 @@
-import { verifyLogin, makeLogin, makeSignup, makeRecoveryPass } from '../screens/TaxiAmareloAPI';
+import { verifyLogin, makeLogin, makeSignup, makeRecoveryPass } from '../TaxiAmareloAPI';
 
 export const checkLogin = () => {
 
