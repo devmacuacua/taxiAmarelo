@@ -1,0 +1,35 @@
+[33mcommit 0b6af31a5c6508ad9bfa76a6ec3d66d800b9ea6d[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Francisco Macuacua <macuacuafrancisco@gmail.com>
+Date:   Mon Jun 24 15:09:20 2019 +0200
+
+    Correção de Bugs de Destination search
+
+[33mcommit c52fd0e6caf6c02a4d6934c79f2af3ce6bd0ad74[m
+Author: Francisco Macuacua <macuacuafrancisco@gmail.com>
+Date:   Mon Jun 24 11:01:19 2019 +0200
+
+    Icones de Markers/Re-centralizar mapa ao mover/Refatorar region do MapView/Exercício: Finalizar o re-centralizar
+
+[33mcommit 498de53a9e9f3f976cc0291561b5f819e6cf8bee[m
+Author: Francisco Macuacua <macuacuafrancisco@gmail.com>
+Date:   Mon Jun 24 08:24:27 2019 +0200
+
+    Traçando a rota &  Realinhando o mapa
+
+[33mcommit ad2df6577fab14cfa0eddee26612ced0949a8aac[m
+Author: Francisco Macuacua <macuacuafrancisco@gmail.com>
+Date:   Sun Jun 23 23:33:18 2019 +0200
+
+    Buscando destino
+
+[33mcommit 764160bc13b6dc1f5392edf564ab744dbcfd5487[m
+Author: Francisco Macuacua <macuacuafrancisco@gmail.com>
+Date:   Sun Jun 23 20:09:23 2019 +0200
+
+    Pegando a localização
+
+[33mcommit 0763a7e3b232c66a517f006146863cd6b835b885[m
+Author: Francisco Macuacua <macuacuafrancisco@gmail.com>
+Date:   Sun Jun 23 16:46:15 2019 +0200
+
+    PRIMEIRO COMMIT

@@ -88,6 +88,7 @@ export class Home extends Component {
                     });
 
                     this.realignMap();
+
                 },
                 (error) => {
                     this.setWarning(false, '');
@@ -191,10 +192,14 @@ export class Home extends Component {
                     onRegionChangeComplete={this.mapRegionChange}
                     >
 
-                    <MapView.Marker image={require('../assets/person-loc-pin.png')} identifier="OriginMarker" coordinate={this.state.currentLocation} />
+                    <MapView.Marker identifier="OriginMarker" coordinate={this.state.currentLocation} >
+                          <Image style={styles.marker} source={require('../assets/destination.png')}/>
+                    </MapView.Marker>
                     {
                         this.state.destinLocation.latitude != 0 &&
-                        <MapView.Marker image={require('../assets/map_marker-512.png')} identifier="DestinationMarker" coordinate={this.state.destinLocation} />
+                        <MapView.Marker identifier="DestinationMarker" coordinate={this.state.destinLocation} >
+                            <Image style={styles.marker} source={require('../assets/destination.png')}/>
+                        </MapView.Marker>
                     }
                     {
                         this.state.destinLocation.latitude != 0 &&
@@ -220,7 +225,7 @@ export class Home extends Component {
 
                 {this.state.recenterMapActive &&
                     <TouchableHighlight style={styles.recenterMap} onPress={this.realignMap}>
-                        <Image style={styles.recenterMapImage} source={require('../assets/person-map-center-pin.png')}/>
+                        <Image style={styles.recenterMapImage} source={require('../assets/center.png')}/>
                     </TouchableHighlight>
                 }
                
@@ -259,6 +264,10 @@ const styles = StyleSheet.create({
     recenterMapImage: {
         width:64,
         height:64,
+    },
+    marker: {
+        width:50,
+        height:50,
     }
 });
 
