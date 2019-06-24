@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Animated, Platform, PermissionsAndroid } from 'react-native';
+import { View, Text, StyleSheet, Animated, Platform, PermissionsAndroid, TouchableHighlight, Image } from 'react-native';
 import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
@@ -28,11 +28,15 @@ export class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentLocation: {
+            mapLocation:{
                 latitude: -25.8960873,
                 longitude: 32.5404721,
                 latitudeDelta: 0.004,
                 longitudeDelta: 0.004
+            },
+            currentLocation: {
+                latitude: -25.8960873,
+                longitude: 32.5404721
             },
 
             destinLocation: {
@@ -41,7 +45,8 @@ export class Home extends Component {
             },
             isLoading: false,
             loadingMsg: '',
-            warnHeight: new Animated.Value(0)
+            warnHeight: new Animated.Value(0),
+            recenterMapActive:true
         };
 
         this.setWarning = this.setWarning.bind(this);
@@ -49,6 +54,7 @@ export class Home extends Component {
         this.requestLocPermission = this.requestLocPermission.bind(this);
         this.SearchBoxClick = this.SearchBoxClick.bind(this);
         this.realignMap = this.realignMap.bind(this);
+        this.mapRegionChange=this.mapRegionChange.bind(this);
     }
 
     componentDidMount() {
@@ -77,9 +83,7 @@ export class Home extends Component {
                     this.setState({
                         currentLocation: {
                             latitude: position.coords.latitude,
-                            longitude: position.coords.longitude,
-                            latitudeDelta: 0.004,
-                            longitudeDelta: 0.004
+                            longitude: position.coords.longitude
                         }
                     });
 
@@ -171,24 +175,33 @@ export class Home extends Component {
 
     }
 
+    mapRegionChange(region){
+      this.setState({
+        mapLocation:region
+      });
+    }
+  
     render() {
         return (
             <View style={styles.container}>
                 <MapView
                     ref={obj => this.map = obj}
                     style={styles.map}
-                    region={this.state.currentLocation}>
+                    region={this.state.mapLocation}
+                    
+                    onRegionChangeComplete={this.mapRegionChange}
+                    >
 
-                    <MapView.Marker identifier="OriginMarker" coordinate={this.state.currentLocation} />
+                    <MapView.Marker image={require('../assets/person-loc-pin.png')} identifier="OriginMarker" coordinate={this.state.currentLocation} />
                     {
                         this.state.destinLocation.latitude != 0 &&
-                        <MapView.Marker identifier="DestinationMarker" coordinate={this.state.destinLocation} />
+                        <MapView.Marker image={require('../assets/map_marker-512.png')} identifier="DestinationMarker" coordinate={this.state.destinLocation} />
                     }
                     {
                         this.state.destinLocation.latitude != 0 &&
                         <MapViewDirections
                             origin={this.state.currentLocation}
-                            destination={this.state.currentLocation}
+                            destination={this.state.destinLocation}
                             apikey={GOOGLE_MAPS_APIKEY}
                             strokeWidth={8}
                             strokeColor="#000000"
@@ -205,6 +218,13 @@ export class Home extends Component {
                 </Animated.View>
 
                 <SearchBox dataClick={this.SearchBoxClick} />
+
+                {this.state.recenterMapActive &&
+                    <TouchableHighlight style={styles.recenterMap} onPress={this.realignMap}>
+                        <Image style={styles.recenterMapImage} source={require('../assets/person-map-center-pin.png')}/>
+                    </TouchableHighlight>
+                }
+               
             </View >
         );
     }
@@ -229,6 +249,17 @@ const styles = StyleSheet.create({
     warnText: {
         fontSize: 13,
         color: '#FFFFFF'
+    },
+    recenterMap: {
+        position:'absolute',
+        right:20,
+        bottom:20,
+        width:64,
+        height:64,
+    },
+    recenterMapImage: {
+        width:64,
+        height:64,
     }
 });
 
