@@ -3,8 +3,11 @@ import { View, Text, StyleSheet, Animated, Platform, PermissionsAndroid } from '
 import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
+import MapViewDirections from 'react-native-maps-directions'
 
 import SearchBox from '../components/Home/SearchBox'
+
+const GOOGLE_MAPS_APIKEY = "AIzaSyDk4_pjtKTzlZsJfccOLjHLjhOnUikgjNY";
 
 export class Home extends Component {
     watchId = null;
@@ -32,6 +35,10 @@ export class Home extends Component {
                 longitudeDelta: 0.004
             },
 
+            destinLocation: {
+                latitude: 0,
+                longitude: 0,
+            },
             isLoading: false,
             loadingMsg: '',
             warnHeight: new Animated.Value(0)
@@ -40,12 +47,25 @@ export class Home extends Component {
         this.setWarning = this.setWarning.bind(this);
         this.getCurrentLocation = this.getCurrentLocation.bind(this);
         this.requestLocPermission = this.requestLocPermission.bind(this);
-        this.SearchBoxClick=this.SearchBoxClick.bind(this);
+        this.SearchBoxClick = this.SearchBoxClick.bind(this);
+        this.realignMap = this.realignMap.bind(this);
     }
 
     componentDidMount() {
         this.getCurrentLocation();
         // Geolocation.clearWatch(this.watchId);//para para se quiser
+    }
+
+    realignMap() {
+        this.map.fitToSuppliedMarkers(['OriginMarker', 'DestinationMarker'], {
+            edgePadding: {
+                left: 100,
+                top: 200,
+                right: 100,
+                bottom: 100
+            },
+            animated: true
+        });
     }
 
     getCurrentLocation = async () => {
@@ -62,6 +82,9 @@ export class Home extends Component {
                             longitudeDelta: 0.004
                         }
                     });
+
+                    this.realignMap();
+
                 },
                 (error) => {
                     this.setWarning(false, '');
@@ -132,15 +155,47 @@ export class Home extends Component {
         }
     }
 
-    SearchBoxClick(item){
-        alert("Clicou em: "+item.label);
+    SearchBoxClick(item) {
+        this.setState(
+            {
+                destinLocation: {
+                    latitude: item.latitude,
+                    longitude: item.longitude,
+                }
+            }
+        );
+
+        setTimeout(() => {
+            this.realignMap();
+        }, 1000);
+
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <MapView style={styles.map}
+                <MapView
+                    ref={obj => this.map = obj}
+                    style={styles.map}
                     region={this.state.currentLocation}>
+
+                    <MapView.Marker identifier="OriginMarker" coordinate={this.state.currentLocation} />
+                    {
+                        this.state.destinLocation.latitude != 0 &&
+                        <MapView.Marker identifier="DestinationMarker" coordinate={this.state.destinLocation} />
+                    }
+                    {
+                        this.state.destinLocation.latitude != 0 &&
+                        <MapViewDirections
+                            origin={this.state.currentLocation}
+                            destination={this.state.currentLocation}
+                            apikey={GOOGLE_MAPS_APIKEY}
+                            strokeWidth={8}
+                            strokeColor="#000000"
+                        />
+
+                    }
+
                 </MapView>
 
                 <Animated.View style={[styles.warnBox, { height: this.state.warnHeight }]}   >
@@ -149,7 +204,7 @@ export class Home extends Component {
                     </Text>
                 </Animated.View>
 
-                <SearchBox dataClick={this.SearchBoxClick}/>
+                <SearchBox dataClick={this.SearchBoxClick} />
             </View >
         );
     }

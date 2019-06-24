@@ -61,8 +61,8 @@ export const makeLocationSearch = function (locTxt) {
                 {
                     id: 3,
                     label: 'Museu da Historia',
-                    lat: -10,
-                    long: -11
+                    lat: -23.6992435,
+                    long: -46.8019848
                 },
             ];
             resolve(array);
