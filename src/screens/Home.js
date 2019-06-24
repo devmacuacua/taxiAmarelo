@@ -88,7 +88,6 @@ export class Home extends Component {
                     });
 
                     this.realignMap();
-
                 },
                 (error) => {
                     this.setWarning(false, '');
@@ -96,9 +95,9 @@ export class Home extends Component {
                 },
                 {
                     enableHighAccuracy: true,
-                    interval: 1000,
+                    interval: 5000,
                     timeout: 15000,
-                    maximumAge: 5000
+                    maximumAge: 10000
                 }
             )
         }
@@ -163,8 +162,8 @@ export class Home extends Component {
         this.setState(
             {
                 destinLocation: {
-                    latitude: item.latitude,
-                    longitude: item.longitude,
+                    latitude: item.lat,
+                    longitude: item.lng,
                 }
             }
         );

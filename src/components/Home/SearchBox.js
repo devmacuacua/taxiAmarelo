@@ -37,6 +37,7 @@ export default class SearchBox extends Component {
                 alert("Ocorreu um Erro");
             });
     }
+   
     render() {
         return (
             <View style={styles.container}>
@@ -55,7 +56,7 @@ export default class SearchBox extends Component {
                                     this.props.dataClick(item);
                                     this.setState({ results: [], txt: item.label });
                                 }}
-                                    key={item.id} data={item} />
+                                key={item.id} data={item} />
                             );
                         })}
                     </ScrollView>

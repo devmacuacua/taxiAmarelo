@@ -48,21 +48,21 @@ export const makeLocationSearch = function (locTxt) {
             let array = [
                 {
                     id: 1,
-                    label: 'Avelida Eduardo Mondlane',
-                    lat: -10,
-                    long: -11
+                    label: 'Eduardo Mondlane',
+                    lat: -25959040,
+                    lng: 32584395
                 },
                 {
                     id: 2,
-                    label: 'Amilcar Cabral',
-                    lat: -10,
-                    long: -11
+                    label: '24 de julho',
+                    lat: -25.9652418,
+                    lng: 32.570671
                 },
                 {
                     id: 3,
-                    label: 'Museu da Historia',
-                    lat: -23.6992435,
-                    long: -46.8019848
+                    label: 'Karl Marx',
+                    lat: -25.9638396,
+                    lng: 32.573418
                 },
             ];
             resolve(array);
